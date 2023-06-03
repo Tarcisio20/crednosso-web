@@ -1,3 +1,5 @@
+"use client";
+
 import { Add } from "@mui/icons-material"
 import { Box, Button, Divider, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material"
 

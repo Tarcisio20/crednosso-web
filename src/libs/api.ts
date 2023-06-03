@@ -1,5 +1,10 @@
 import { AtmType } from "@/types/AtmType"
+import { OperationType } from "@/types/OperationType"
+import { PedidoType } from "@/types/PedidoType"
 import { TransportadoraType } from "@/types/TransportadoraType"
+import { TypesPedidoType } from "@/types/TypesPedidoType"
+import { SettingsEthernet } from "@mui/icons-material"
+import { resolve } from "path"
 
 export const api = {
     login : async (user : string, password : string) : Promise<{ error : string, token? : string }> => {
@@ -99,6 +104,131 @@ export const api = {
         return new Promise(resolve=>{
             setTimeout(()=>{
                resolve(true)
+            }, 1000)
+        })
+    },
+    getPedidos : async () : Promise<PedidoType[]> => {
+        
+        const list : PedidoType[] = [
+            {
+                id : 1, 
+                typeOperation  : {id : 1, name : 'Tipo 1'},
+                origin : {
+                     id : 1, name : 'Transportadora 1', contaTesouraria : 1231, saldo : 1110.28
+                },
+                destiny : {
+                    id : 2, name : 'Transportadora 2', contaTesouraria : 1232, saldo : 0.0
+                },
+                data : new Date(),
+                typePedido : {id : 1, name : 'Tipo Pedido 1'},
+                value10 : 100,
+                value20 : 100,
+                value50 : 100,
+                value100 : 100,
+                obs : ''
+            },
+            {
+                id : 2, 
+                typeOperation  : {id : 1, name : 'Tipo 1'},
+                origin : {
+                     id : 1, name : 'Transportadora 1', contaTesouraria : 1231, saldo : 1110.28
+                },
+                destiny : {
+                    id : 2, name : 'Transportadora 2', contaTesouraria : 1232, saldo : 0.0
+                },
+                data : new Date(),
+                typePedido : {id : 1, name : 'Tipo Pedido 1'},
+                value10 : 200,
+                value20 : 200,
+                value50 : 200,
+                value100 : 200,
+                obs : 'Aqui tem uma observação'
+            },
+            {
+                id : 3, 
+                typeOperation  : {id : 1, name : 'Tipo 1'},
+                origin : {
+                     id : 1, name : 'Transportadora 1', contaTesouraria : 1231, saldo : 1110.28
+                },
+                destiny : {
+                    id : 2, name : 'Transportadora 2', contaTesouraria : 1232, saldo : 0.0
+                },
+                data : new Date(),
+                typePedido : {id : 1, name : 'Tipo Pedido 1'},
+                value10 : 100,
+                value20 : 100,
+                value50 : 100,
+                value100 : 100,
+                obs : ''
+            },
+            {
+                id : 4, 
+                typeOperation  : {id : 1, name : 'Tipo 1'},
+                origin : {
+                     id : 1, name : 'Transportadora 1', contaTesouraria : 1231, saldo : 1110.28
+                },
+                destiny : {
+                    id : 2, name : 'Transportadora 2', contaTesouraria : 1232, saldo : 0.0
+                },
+                data : new Date(),
+                typePedido : {id : 1, name : 'Tipo Pedido 1'},
+                value10 : 100,
+                value20 : 100,
+                value50 : 100,
+                value100 : 100,
+                obs : ''
+            },
+            {
+                id : 5, 
+                typeOperation  : {id : 1, name : 'Tipo 1'},
+                origin : {
+                     id : 1, name : 'Transportadora 1', contaTesouraria : 1231, saldo : 1110.28
+                },
+                destiny : {
+                    id : 2, name : 'Transportadora 2', contaTesouraria : 1232, saldo : 0.0
+                },
+                data : new Date(),
+                typePedido : {id : 1, name : 'Tipo Pedido 1'},
+                value10 : 100,
+                value20 : 100,
+                value50 : 100,
+                value100 : 100,
+                obs : ''
+            }
+        ] 
+        return new Promise(resolve=>{
+            setTimeout(()=>{
+                resolve(list)
+            }, 2000)
+        })
+    },
+    getOperations : async () : Promise<OperationType[]> => {
+        const list : OperationType[] = [
+            {id : 1, name : 'Operação 1'},
+            {id : 2, name : 'Operação 2'},
+            {id : 3, name : 'Operação 3'},
+            {id : 4, name : 'Operação 4'},
+            {id : 5, name : 'Operação 5'},
+        ] 
+
+        return new Promise(resolve => {
+            setTimeout(()=>{
+                resolve(list)
+            }, 1000)
+        })
+    },
+    getTypes : async () : Promise<TypesPedidoType[]> => {
+        const list : TypesPedidoType[] = [
+            {id : 1, name : 'Tipo 1'},
+            {id : 2, name : 'Tipo 2'},
+            {id : 3, name : 'Tipo 3'},
+            {id : 4, name : 'Tipo 4'},
+            {id : 5, name : 'Tipo 5'},
+        ]
+
+        return new Promise(resolve => {
+            setTimeout(()=> {
+                resolve(list)
             }, 1000)
         })
     }

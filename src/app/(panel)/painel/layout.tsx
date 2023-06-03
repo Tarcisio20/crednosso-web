@@ -5,6 +5,8 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { Container } from '@mui/material';
 import { Header } from '@/components/Header';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs  } from '@mui/x-date-pickers/AdapterDayjs'
 
 
 type Props = {
@@ -16,8 +18,10 @@ const Layout = ({ children } : Props) => {
         <html lang="pt-br">
             <body style={{ margin : 0, padding : 0 }}>
                 <Header />
-                <Container component="main" maxWidth="lg"> 
+                <Container component="main" maxWidth="lg">
+                    <LocalizationProvider dateAdapter={AdapterDayjs} >
                         {children}
+                    </LocalizationProvider>
                 </Container>
             </body>
         </html>
