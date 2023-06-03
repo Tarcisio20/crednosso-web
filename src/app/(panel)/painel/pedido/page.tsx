@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from 'dayjs';
 import { utils } from "@/libs/utils";
+import { ButtonComponent } from "@/components/ButtonComponent";
 
 dayjs.locale('pt-br')
 
@@ -53,6 +54,8 @@ const Page = () => {
 
     const handleFormSearchSubmit = () => {}
 
+    const handleConfirmPartial = () => {}
+
     return(
         <Box sx={{ my: 3 }}>
              <Box sx={{ 
@@ -78,37 +81,48 @@ const Page = () => {
                     FILTROS | <span style={{ color : '#DDD', fontWeight : 'bold' }} >PEDIDOS</span>
                 </Typography>
                 <Box component="form" onSubmit={handleFormSearchSubmit} 
-                    sx={{ display : 'flex', flexDirection : 'row', alignItems: 'center', gap : 3 }}
+                    sx={{ display : 'flex', flexDirection : 'row', alignItems: 'center', justifyContent: 'center', gap : 3 }}
                 > 
                     <Box sx={{ mb : 2, width : '20%' }}>
-                        <InputLabel variant="standard" htmlFor="initialDateField">DATA INICIAL</InputLabel>
+                        <InputLabel variant="standard" htmlFor="initialDateField">Data Inicial</InputLabel>
                         <DatePicker
                             value={dateInitial}
                             defaultValue={dayjs(utils.formatDateForDatePicker(new Date()))}
                             onChange={newValue => setDateInitial(newValue)}
                             format="DD/MM/YYYY"
-                            sx={{width : '100%', border : 'none' }}
+                            sx={{width : '100%', border : 'none', padding: 2 }}
                         />
                     </Box>
                     <Box sx={{ mb : 2, width : '20%' }}>
-                        <InputLabel variant="standard" htmlFor="finalDateField">DATA FINAL</InputLabel>
+                        <InputLabel variant="standard" htmlFor="finalDateField">Data Final</InputLabel>
                         <DatePicker
                             value={dateFinal}
                             defaultValue={dayjs(utils.formatDateForDatePicker(new Date()))}
                             onChange={newValue => setDateFinal(newValue)}
                             format="DD/MM/YYYY"
-                            sx={{width : '100%', border : 'none' }}
+                            sx={{width : '100%', border : 'none', padding: 2 }}
                         />
                     </Box>
                     <Box  sx={{  width : '20%' }}>
-                        <Button sx={{ width : '100%' }} variant="outlined" color="success" >
+                        <Button sx={{ width : '20%', height: '55px' }} variant="outlined" color="success" >
                             <Search />
                         </Button>
                     </Box>
                 </Box>
             </Box>
             <Divider />
-
+            <Box>
+                <Typography component="h5" variant="h5"  >
+                    AÇÕES | <span style={{ color : '#DDD', fontWeight : 'bold' }} >PEDIDOS</span>
+                </Typography>
+                <Box sx={{ mb : 2 }}>
+                    <ButtonComponent variant="outlined" color="success" onClick={handleConfirmPartial}>Confirmar Parcial</ButtonComponent>
+                </Box>
+            </Box>
+            <Divider />
+            {/* Tabela ID | tipo operação | Cod Origem | transp. Origem | Cod Destino | tranportadora destino | Data pedido 
+            | valor solicitado | status | Valor Realizado | Alteração na  composição | observação
+            */}
 
 
             <PedidoEditDialog
