@@ -1,8 +1,8 @@
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { OperationType } from "@/types/OperationType";
 import { PedidoType } from "@/types/PedidoType";
 import { TransportadoraType } from "@/types/TransportadoraType";
-import { Box, Button, Dialog, DialogContent, DialogTitle, Divider, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Box, Button, Dialog, DialogContent, DialogTitle, Divider, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from 'dayjs';
 import { utils } from "@/libs/utils";
@@ -28,6 +28,29 @@ export const PedidoEditDialog = (
     
     const [datePedido, setDatePedido] = useState<Dayjs | null>()
 
+    const [value10, setValue10] = useState(0)
+    const [value20, setValue20] = useState(0)
+    const [value50, setValue50] = useState(0)
+    const [value100, setValue100] = useState(0)
+
+    const [total, setTotal] = useState(0)
+
+
+    useEffect(()=>{
+
+        let sumarization: number = 0
+
+        if(value10 > 0) sumarization = sumarization +  (value10 * 10)
+        if(value20 > 0) sumarization = sumarization + (value20 * 20)
+        if(value50 > 0) sumarization = sumarization + (value50 * 50)
+        if(value100 > 0) sumarization = sumarization + (value100 * 100)
+
+        setTotal(sumarization)
+
+    },[value10, value20, value50, value100])
+
+
+
     const handleFormSubmit = () => {}
 
 
@@ -43,29 +66,31 @@ export const PedidoEditDialog = (
                     <Box sx={{ display : 'flex', flexDirection : 'row', gap : 3 }} >
                         <Box sx={{ width : '100%' }}>
                             <Box sx={{ mb : 2 }}>
-                                <InputLabel variant="standard" htmlFor="idField">ID</InputLabel>
+                                <InputLabel variant="standard" size="small"  id="idFiled">Id</InputLabel>
                                 <TextField
-                                    id="idField"
+                                    id="idField"   
                                     variant="standard"
                                     name="idPedido"
                                     type="number"
-                                    defaultValue={pedido?.id || 0}
+                                    defaultValue={pedido?.id || '#'}
                                     required
                                     fullWidth
-                                    disabled={disabled}
+                                    disabled
+                                    size="small"
                                 />
                             </Box>
 
                             <Box sx={{ mb : 2 }}>
-                                <InputLabel variant="standard" htmlFor="operationField">TIPO OPERAÇÃO</InputLabel>
+                                <InputLabel variant="standard"  id="operationField">Tipo de Operação</InputLabel>
                                 <Select
                                     id="operationField"
-                                    variant="standard"
+                                    labelId="operationField"
                                     name="operation"
                                     defaultValue={pedido?.typeOperation.id || operations[0]?.id}
                                     required
                                     fullWidth
                                     disabled={disabled}
+                                    variant="standard"
                                 >
                                     {operations?.map(item => (
                                         <MenuItem
@@ -77,27 +102,29 @@ export const PedidoEditDialog = (
                             </Box>
 
                             <Box sx={{ mb : 2 }}>
-                                <InputLabel variant="standard" htmlFor="originField">ORIGEM</InputLabel>
-                                <Select
-                                    id="originField"
-                                    variant="standard"
-                                    name="origin"
-                                    defaultValue={pedido?.origin.id || transportadoras[0]?.id}
-                                    required
-                                    fullWidth
-                                    disabled={disabled}
-                                >
-                                    {transportadoras?.map(item => (
-                                        <MenuItem
-                                            key={item.id}
-                                            value={item.id}
-                                        >{item.name}</MenuItem>
-                                    ))}
-                                </Select>
+                                <InputLabel variant="standard" size="small" htmlFor="originField">Origem</InputLabel>
+                               
+                                    <Select
+                                        id="originField"
+                                        variant="standard"
+                                        name="origin"
+                                        defaultValue={pedido?.origin.id || transportadoras[0]?.id}
+                                        required
+                                        disabled={disabled}
+                                        size="small"
+                                        fullWidth
+                                    >
+                                        {transportadoras?.map(item => (
+                                            <MenuItem
+                                                key={item.id}
+                                                value={item.id}
+                                            >{ pedido?.origin.name || item.name}</MenuItem>
+                                        ))}
+                                    </Select>
                             </Box>
 
                             <Box sx={{ mb : 2 }}>
-                                <InputLabel variant="standard" htmlFor="destinyField">DESTINO</InputLabel>
+                                <InputLabel variant="standard" size="small" htmlFor="destinyField">Destino</InputLabel>
                                 <Select
                                     id="destinyField"
                                     variant="standard"
@@ -106,6 +133,7 @@ export const PedidoEditDialog = (
                                     required
                                     fullWidth
                                     disabled={disabled}
+                                    size="small"
                                 >
                                     {transportadoras?.map(item => (
                                         <MenuItem
@@ -114,22 +142,22 @@ export const PedidoEditDialog = (
                                         >{item.name}</MenuItem>
                                     ))}
                                 </Select>
+                          
                             </Box>
-
                             <Box sx={{ mb : 2 }}>
-                                <InputLabel variant="standard" htmlFor="dateField">DATA DO PEDIDO</InputLabel>
-                            <DatePicker
+                                <InputLabel variant="standard" size="small" htmlFor="dateField">Data do Pedido</InputLabel>
+                                <DatePicker
                                     value={datePedido}
                                     defaultValue={dayjs(utils.formatDateForDatePicker(new Date()))}
                                     onChange={newValue => setDatePedido(newValue)}
                                     format="DD/MM/YYYY"
                                     sx={{width : '100%', border : 'none' }}
-                            />
+                                />
                                 
                             </Box>
 
                             <Box sx={{ mb : 2 }}>
-                                <InputLabel variant="standard" htmlFor="destinyField">TIPO DE PEDIDO</InputLabel>
+                                <InputLabel variant="standard" size="small" htmlFor="destinyField">Tipo de Pedido</InputLabel>
                                 <Select
                                     id="typeField"
                                     variant="standard"
@@ -138,6 +166,7 @@ export const PedidoEditDialog = (
                                     required
                                     fullWidth
                                     disabled={disabled}
+                                    size="small"
                                 >
                                     {transportadoras?.map(item => (
                                         <MenuItem
@@ -150,58 +179,61 @@ export const PedidoEditDialog = (
                         </Box>
                         <Box sx={{ width : '100%' }}>
                             <Box sx={{ mb : 2 }}>
-                                <InputLabel htmlFor="value10Field">R$ 10,00</InputLabel>
+                                <InputLabel variant="standard" htmlFor="value10Field">R$ 10,00</InputLabel>
                                 <TextField
                                     id="value10Field"
                                     variant="standard"
                                     name="value10Field"
                                     type="number"
-                                    defaultValue={pedido?.value10 || 0}
+                                    defaultValue={pedido?.value10 || value10}
                                     required
                                     fullWidth
                                     disabled={disabled}
+                                    size="small"
                                 />
-                                <InputLabel>R$ 00,00</InputLabel>
+                                <InputLabel size="small">{utils.valueInCass(10, value10)}</InputLabel>
                             </Box>
 
                             <Box sx={{ mb : 2 }}>
-                                <InputLabel htmlFor="value20Field">R$ 20,00</InputLabel>
+                                <InputLabel variant="standard" size="small" htmlFor="value20Field">R$ 20,00</InputLabel>
                                 <TextField
                                     id="value20Field"
                                     variant="standard"
                                     name="value20Field"
                                     type="number"
-                                    defaultValue={pedido?.value20 || 0}
+                                    defaultValue={pedido?.value20 || value20}
                                     required
                                     fullWidth
                                     disabled={disabled}
+                                    size="small"
                                 />
                                 <InputLabel>R$ 00,00</InputLabel>
                             </Box>
 
                             <Box sx={{ mb : 2 }}>
-                                <InputLabel htmlFor="value50Field">R$ 50,00</InputLabel>
+                                <InputLabel variant="standard" size="small" htmlFor="value50Field">R$ 50,00</InputLabel>
                                 <TextField
                                     id="value50Field"
                                     variant="standard"
                                     name="value50Field"
                                     type="number"
-                                    defaultValue={pedido?.value50 || 0}
+                                    defaultValue={pedido?.value50 || value50}
                                     required
                                     fullWidth
                                     disabled={disabled}
+                                    size="small"
                                 />
-                                <InputLabel>R$ 00,00</InputLabel>
+                                <InputLabel size="small" >R$ 00,00</InputLabel>
                             </Box>
 
                             <Box sx={{ mb : 2 }}>
-                                <InputLabel htmlFor="value20Field">R$ 100,00</InputLabel>
+                                <InputLabel variant="standard" htmlFor="value20Field">R$ 100,00</InputLabel>
                                 <TextField
                                     id="value100Field"
                                     variant="standard"
                                     name="value100Field"
                                     type="number"
-                                    defaultValue={pedido?.value100 || 0}
+                                    defaultValue={pedido?.value100 || value100}
                                     required
                                     fullWidth
                                     disabled={disabled}
@@ -209,12 +241,12 @@ export const PedidoEditDialog = (
                                 <InputLabel>R$ 00,00</InputLabel>
                             </Box>
                             <Box sx={{ mb : 2 }}>
-                                <InputLabel htmlFor="totalField">TOTAL</InputLabel>
+                                <InputLabel variant="standard" htmlFor="totalField">Total</InputLabel>
                                 <TextField
                                     id="totalField"
                                     variant="standard"
                                     name="totalField"
-                                    defaultValue={`R$ 00,00`}
+                                    defaultValue={pedido? utils.totalValueInPedidoInReal(pedido.value10, pedido.value20, pedido.value50, pedido.value100) : 'R$ 00,00'}
                                     required
                                     fullWidth
                                     disabled={disabled}
@@ -225,7 +257,7 @@ export const PedidoEditDialog = (
                     <Divider />
                     <Box sx={{ mb : 2 }}>
                         <Box sx={{ mb : 2 }}>
-                            <InputLabel variant="standard" htmlFor="obsField">OBSERVAÇÃO</InputLabel>
+                            <InputLabel variant="standard" htmlFor="obsField">Observação</InputLabel>
                             <TextField
                                 id="obsField"
                                 variant="standard"
