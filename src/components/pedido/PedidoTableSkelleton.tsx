@@ -1,6 +1,6 @@
 import { TableCell, TableRow, Skeleton } from "@mui/material";
 
-export const PedidoTableSkellon = () => {
+export const PedidoTableSkelleton = () => {
   return (
     <TableRow>
       <TableCell sx={{ width: 50, display: { xs: "none", md: "table-cell" } }}>

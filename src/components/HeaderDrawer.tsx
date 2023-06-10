@@ -49,6 +49,20 @@ export const HeaderDrawer = ({ open, onClose, onLogout, title } : Props) => {
                             </Link>
                         </ListItemButton>
                     </ListItem>
+                    <ListItem disablePadding >
+                        <ListItemButton>
+                            <Link href="/pedido" style={{ color : '#000', textDecoration : 'none' }}>
+                                <ListItemText primary="Pedido" />
+                            </Link>
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding >
+                        <ListItemButton>
+                            <Link href="/admin" style={{ color : '#000', textDecoration : 'none' }}>
+                                <ListItemText primary="admin" />
+                            </Link>
+                        </ListItemButton>
+                    </ListItem>
                      <ListItem disablePadding >
                         <ListItemButton onClick={onLogout}>
                             <ListItemText primary="Sair" />

@@ -1,8 +1,8 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import {  FormEvent, useEffect, useState } from "react";
 import { OperationType } from "@/types/OperationType";
 import { PedidoType } from "@/types/PedidoType";
 import { TransportadoraType } from "@/types/TransportadoraType";
-import { Box, Button, Dialog, DialogContent, DialogTitle, Divider, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Box, Button, Dialog, DialogContent, DialogTitle, Divider, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from 'dayjs';
 import { utils } from "@/libs/utils";
@@ -28,28 +28,42 @@ export const PedidoEditDialog = (
     
     const [datePedido, setDatePedido] = useState<Dayjs | null>()
 
-    const [value10, setValue10] = useState(0)
-    const [value20, setValue20] = useState(0)
-    const [value50, setValue50] = useState(0)
-    const [value100, setValue100] = useState(0)
+    const [value10, setValue10] = useState('0')
+    const [value20, setValue20] = useState('0')
+    const [value50, setValue50] = useState('0')
+    const [value100, setValue100] = useState('0')
 
-    const [total, setTotal] = useState(0)
+    const [totalField, setTotalField] = useState(0)
 
+    const verifyValuesValuesPurchasse = () => {
+        
+        if(pedido){
+            console.log(pedido)
+            setValue10(pedido.value10.toString())   
+            setValue20(pedido.value20.toString())   
+            setValue50(pedido.value50.toString())   
+            setValue100(pedido.value100.toString())   
+        }else{
+            console.log('Não temos pedido')
+            setValue10('0')
+            setValue20('0')
+            setValue50('0')
+            setValue100('0')
+        }
+    }
 
     useEffect(()=>{
+        verifyValuesValuesPurchasse()
+    }, [])
 
-        let sumarization: number = 0
+    
 
-        if(value10 > 0) sumarization = sumarization +  (value10 * 10)
-        if(value20 > 0) sumarization = sumarization + (value20 * 20)
-        if(value50 > 0) sumarization = sumarization + (value50 * 50)
-        if(value100 > 0) sumarization = sumarization + (value100 * 100)
-
-        setTotal(sumarization)
-
-    },[value10, value20, value50, value100])
-
-
+   
+    const handleValue10 = (e : string) => {
+        setValue10(e)
+        let value = parseInt(e)
+       // setTotal(total + (value * 10))
+    }
 
     const handleFormSubmit = () => {}
 
@@ -66,7 +80,7 @@ export const PedidoEditDialog = (
                     <Box sx={{ display : 'flex', flexDirection : 'row', gap : 3 }} >
                         <Box sx={{ width : '100%' }}>
                             <Box sx={{ mb : 2 }}>
-                                <InputLabel variant="standard" size="small"  id="idFiled">Id</InputLabel>
+                                <InputLabel variant="standard"  id="idFiled">Id</InputLabel>
                                 <TextField
                                     id="idField"   
                                     variant="standard"
@@ -102,7 +116,7 @@ export const PedidoEditDialog = (
                             </Box>
 
                             <Box sx={{ mb : 2 }}>
-                                <InputLabel variant="standard" size="small" htmlFor="originField">Origem</InputLabel>
+                                <InputLabel variant="standard" htmlFor="originField">Origem</InputLabel>
                                
                                     <Select
                                         id="originField"
@@ -124,7 +138,7 @@ export const PedidoEditDialog = (
                             </Box>
 
                             <Box sx={{ mb : 2 }}>
-                                <InputLabel variant="standard" size="small" htmlFor="destinyField">Destino</InputLabel>
+                                <InputLabel variant="standard" htmlFor="destinyField">Destino</InputLabel>
                                 <Select
                                     id="destinyField"
                                     variant="standard"
@@ -145,7 +159,7 @@ export const PedidoEditDialog = (
                           
                             </Box>
                             <Box sx={{ mb : 2 }}>
-                                <InputLabel variant="standard" size="small" htmlFor="dateField">Data do Pedido</InputLabel>
+                                <InputLabel variant="standard" htmlFor="dateField">Data do Pedido</InputLabel>
                                 <DatePicker
                                     value={datePedido}
                                     defaultValue={dayjs(utils.formatDateForDatePicker(new Date()))}
@@ -157,7 +171,7 @@ export const PedidoEditDialog = (
                             </Box>
 
                             <Box sx={{ mb : 2 }}>
-                                <InputLabel variant="standard" size="small" htmlFor="destinyField">Tipo de Pedido</InputLabel>
+                                <InputLabel variant="standard" htmlFor="destinyField">Tipo de Pedido</InputLabel>
                                 <Select
                                     id="typeField"
                                     variant="standard"
@@ -177,6 +191,7 @@ export const PedidoEditDialog = (
                                 </Select>
                             </Box>
                         </Box>
+
                         <Box sx={{ width : '100%' }}>
                             <Box sx={{ mb : 2 }}>
                                 <InputLabel variant="standard" htmlFor="value10Field">R$ 10,00</InputLabel>
@@ -185,17 +200,18 @@ export const PedidoEditDialog = (
                                     variant="standard"
                                     name="value10Field"
                                     type="number"
-                                    defaultValue={pedido?.value10 || value10}
+                                    value={value10}
                                     required
                                     fullWidth
                                     disabled={disabled}
                                     size="small"
+                                    onChange={e => handleValue10(e.target.value)}
+                                    helperText={utils.valueInCass(10, value10)}
                                 />
-                                <InputLabel size="small">{utils.valueInCass(10, value10)}</InputLabel>
                             </Box>
 
                             <Box sx={{ mb : 2 }}>
-                                <InputLabel variant="standard" size="small" htmlFor="value20Field">R$ 20,00</InputLabel>
+                                <InputLabel variant="standard" htmlFor="value20Field">R$ 20,00</InputLabel>
                                 <TextField
                                     id="value20Field"
                                     variant="standard"
@@ -206,12 +222,13 @@ export const PedidoEditDialog = (
                                     fullWidth
                                     disabled={disabled}
                                     size="small"
+                                    onChange={e => setValue20(e.target.value)}
+                                    helperText={value20 != ''?utils.valueInCass(20, value20) : 'R$ 00,00'} 
                                 />
-                                <InputLabel>R$ 00,00</InputLabel>
                             </Box>
 
                             <Box sx={{ mb : 2 }}>
-                                <InputLabel variant="standard" size="small" htmlFor="value50Field">R$ 50,00</InputLabel>
+                                <InputLabel variant="standard" htmlFor="value50Field">R$ 50,00</InputLabel>
                                 <TextField
                                     id="value50Field"
                                     variant="standard"
@@ -222,8 +239,9 @@ export const PedidoEditDialog = (
                                     fullWidth
                                     disabled={disabled}
                                     size="small"
+                                    onChange={e => setValue50(e.target.value)}
+                                    helperText={value50 != ''?utils.valueInCass(50, value50) : 'R$ 00,00'} 
                                 />
-                                <InputLabel size="small" >R$ 00,00</InputLabel>
                             </Box>
 
                             <Box sx={{ mb : 2 }}>
@@ -237,8 +255,9 @@ export const PedidoEditDialog = (
                                     required
                                     fullWidth
                                     disabled={disabled}
+                                    onChange={e => setValue100(e.target.value)}
+                                    helperText={value100 != ''?utils.valueInCass(100, value100) : 'R$ 00,00'}   
                                 />
-                                <InputLabel>R$ 00,00</InputLabel>
                             </Box>
                             <Box sx={{ mb : 2 }}>
                                 <InputLabel variant="standard" htmlFor="totalField">Total</InputLabel>
@@ -246,10 +265,10 @@ export const PedidoEditDialog = (
                                     id="totalField"
                                     variant="standard"
                                     name="totalField"
-                                    defaultValue={pedido? utils.totalValueInPedidoInReal(pedido.value10, pedido.value20, pedido.value50, pedido.value100) : 'R$ 00,00'}
+                                    value={utils.totalValueInPedidoInReal(totalField)}
                                     required
                                     fullWidth
-                                    disabled={disabled}
+                                    disabled
                                 />
                             </Box>
                         </Box>

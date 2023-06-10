@@ -16,7 +16,6 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
-  InputLabel,
   Table,
   TableCell,
   TableHead,
@@ -27,9 +26,8 @@ import {
 import { useEffect, useState, FormEvent } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
-import { utils } from "@/libs/utils";
 import { ButtonComponent } from "@/components/ButtonComponent";
-import { PedidoTableSkellon } from "@/components/Pedido/PedidoTableSkelleton";
+import { PedidoTableSkelleton } from '@/components/Pedido/PedidoTableSkelleton'
 import { PedidoTableItem } from "@/components/Pedido/PedidoTableItem";
 
 dayjs.locale("pt-br");
@@ -112,7 +110,7 @@ const Page = () => {
 
   const handleFormSearchSubmit = async () => {
     setShowSearchDialog(true);
-    setPedidosClone(await api.searchFilters(dateInitial, dateFinal));
+    setPedidosClone(await api.searchFilters(dayjs(dateInitial), dayjs(dateFinal)));
     setShowSearchDialog(false);
   };
 
@@ -164,9 +162,8 @@ const Page = () => {
           <Box sx={{ mb: 2, width: "30%" }}>
             <DatePicker
               label="Inicial"
-              value={dateInitial}
-              defaultValue={dayjs(utils.formatDateForDatePicker(new Date()))}
-              onChange={(newValue) => setDateInitial(newValue)}
+              defaultValue={dateInitial}
+              onChange={(newValue : Dayjs | null) => setDateInitial(newValue)}
               format="DD/MM/YYYY"
               sx={{}}
             />
@@ -174,9 +171,8 @@ const Page = () => {
           <Box sx={{ mb: 2, width: "30%" }}>
             <DatePicker
               label="Final"
-              value={dateFinal}
-              defaultValue={dayjs(utils.formatDateForDatePicker(new Date()))}
-              onChange={(newValue) => setDateFinal(newValue)}
+              defaultValue={dateFinal}
+              onChange={(newValue : Dayjs  | null) => setDateFinal(newValue)}
               format="DD/MM/YYYY"
               sx={{}}
             />
@@ -253,11 +249,11 @@ const Page = () => {
         <TableBody>
           {loading && (
             <>
-              <PedidoTableSkellon />
-              <PedidoTableSkellon />
-              <PedidoTableSkellon />
-              <PedidoTableSkellon />
-              <PedidoTableSkellon />
+              <PedidoTableSkelleton />
+              <PedidoTableSkelleton />
+              <PedidoTableSkelleton />
+              <PedidoTableSkelleton />
+              <PedidoTableSkelleton />
             </>
           )}
           {!loading &&

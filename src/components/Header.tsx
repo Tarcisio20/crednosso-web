@@ -48,7 +48,10 @@ export const Header = () => {
                         </Link>
                         <Link href="/painel/pedido" style={{ textDecoration : 'none' }} >
                             <Button sx={{ color: '#EEE' }} >Pedido</Button>
-                        </Link>   
+                        </Link>
+                        <Link href="/painel/admin" style={{ textDecoration : 'none' }} >
+                            <Button sx={{ color: '#EEE' }} >Admin</Button>
+                        </Link>  
                         <Button sx={{ color: '#EEE' }} onClick={handleLogout} >Sair</Button>  
                     </Box>     
                 </Toolbar>
